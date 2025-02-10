@@ -115,15 +115,28 @@ if arquivo is not None:
         {documento}
         
         ## Campos a preencher:
-        - Tipo de Sentença: ("procedente", "improcedente", "parcialmente procedente", "extinto sem julgamento do mérito")
-        - Obrigações: Descreva as obrigações de fazer determinadas na sentença, exceto pagamento em dinheiro.
-        - Tipo de Condenação: ("Pagamento e Obrigação", "Obrigação", "Pagamento")
-        - Nome do Juiz: Nome do juiz responsável.
-        - Data da Sentença: XX/XX/XXXX (se ausente, use "10/06/2024").
-        - Valores: Dano Material, Dano Moral, Honorários, Percentual de Juros (0,00).
-        - Datas de Atualização Monetária e Juros: "Data da Sentença", "Data da Distribuição", "Data do Fato", "Data da Citação".
-        - Dispositivo: Analise o texto e traga um texto com o dispositivo da sentença.
-        - Relatório da Sentença: Relatório detalhado com fatos, fundamentos e condenação."""
+        -Comando para Extrair Informações de uma Sentença Judicial
+Breve Relato da Sentença: Gerar um resumo objetivo da sentença, destacando os principais pontos da decisão.
+
+Fundamentação da Sentença: Extrair os principais argumentos jurídicos utilizados pelo juiz para embasar a decisão.
+
+Juiz Responsável: Identificar o nome do magistrado que proferiu a decisão.
+
+Data da Sentença: Extrair a data em que a sentença foi proferida.
+
+Pedidos do Autor e Resultado: Para cada pedido formulado pelo autor, identificar:
+
+Se foi procedente ou improcedente.
+Caso procedente, informar o valor determinado na sentença. Se não houver um valor especificado, indicar "valor não encontrado na sentença".
+Exemplo de saída:
+
+Dano material: Procedente – Valor: R$ 5.000,00.
+Dano moral: Improcedente.
+Condenação: Identificar as obrigações impostas às partes (pagamento de valores, cumprimento de obrigação de fazer, etc.).
+
+Multa e Juros: Verificar se há incidência de multa, juros e correção monetária.
+
+Honorários Advocatícios: Identificar se há condenação em honorários advocatícios e seu percentual."""
     }
     
     prompt_escolhido = st.selectbox("Escolha um prompt para gerar a resposta:", list(prompt_opcoes.keys()))

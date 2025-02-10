@@ -83,7 +83,7 @@ def gerar_resposta(prompt, informacoes):
     
     chat = ChatOpenAI(model="gpt-4o", api_key=openai_api_key)
     
-    template = ChatPromptTemplate.from_messages([
+    template = ChatPromptTemplate.from_messages([  
         ("system", "Dado um texto extraído de documento, analise e extraia as informações necessárias..."),
         ("user", "{input}")
     ])
@@ -101,13 +101,38 @@ if arquivo is not None:
     informacoes = extrair_informacoes(arquivo, tipo_arquivo)
     st.text_area("Informações extraídas do arquivo:", informacoes, height=200)
     
-    prompt_personalizado = st.text_area("Digite o prompt que deseja usar:", placeholder="Ex: Resuma as informações em tópicos.")
+    # Exibir opções de prompts para o usuário escolher
+    prompt_opcoes = {
+        "Breve relato": """Você é um advogado sênior. Analise o texto a seguir e forneça um resumo:
+        Fatos alegados: [Fatos do caso]
+        Fundamentos jurídicos: [Fundamentos legais]
+        Matéria discutida: [Questão principal]""",
+        
+        "Incluir sentença": """Aja como um advogado sênior especialista em análise de sentenças.
+        Interprete o texto da sentença conforme as instruções abaixo e classifique os campos solicitados.
+        
+        ## Sentença:
+        {documento}
+        
+        ## Campos a preencher:
+        - Tipo de Sentença: ("procedente", "improcedente", "parcialmente procedente", "extinto sem julgamento do mérito")
+        - Obrigações: Descreva as obrigações de fazer determinadas na sentença, exceto pagamento em dinheiro.
+        - Tipo de Condenação: ("Pagamento e Obrigação", "Obrigação", "Pagamento")
+        - Nome do Juiz: Nome do juiz responsável.
+        - Data da Sentença: XX/XX/XXXX (se ausente, use "10/06/2024").
+        - Valores: Dano Material, Dano Moral, Honorários, Percentual de Juros (0,00).
+        - Datas de Atualização Monetária e Juros: "Data da Sentença", "Data da Distribuição", "Data do Fato", "Data da Citação".
+        - Dispositivo: Analise o texto e traga um texto com o dispositivo da sentença.
+        - Relatório da Sentença: Relatório detalhado com fatos, fundamentos e condenação."""
+    }
     
+    prompt_escolhido = st.selectbox("Escolha um prompt para gerar a resposta:", list(prompt_opcoes.keys()))
+
     if st.button("Gerar Resposta"):
-        if prompt_personalizado.strip():
-            resposta = gerar_resposta(prompt_personalizado, informacoes)
+        if prompt_escolhido:
+            resposta = gerar_resposta(prompt_opcoes[prompt_escolhido], informacoes)
             st.text_area("Resposta gerada:", resposta, height=200)
         else:
-            st.warning("Por favor, insira um prompt válido.")
+            st.warning("Por favor, escolha um prompt.")
 else:
     st.warning("Por favor, faça o upload de um arquivo para continuar.")

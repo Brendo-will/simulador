@@ -20,10 +20,12 @@ st.markdown(
     f"""
     <style>
     .stApp {{
-        background-color: white;
+        background-image: url("data:image/jpg;base64,{get_base64_image('Fundo.jpg')}");
+        background-size: cover;
+        background-position: center;
     }}
     .stApp header {{
-        background-color: #7C4DFF;
+        background-color: transparent;  /* Remove a cor de fundo da parte superior */
         color: white;
         padding: 1rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -43,7 +45,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 st.markdown(
     f"""
     <div style='display: flex; align-items: center; gap: 10px;'>
@@ -115,28 +116,32 @@ if arquivo is not None:
         {documento}
         
         ## Campos a preencher:
-        -Comando para Extrair Informações de uma Sentença Judicial
-Breve Relato da Sentença: Gerar um resumo objetivo da sentença, destacando os principais pontos da decisão.
+        Comando para Extrair Informações de uma Sentença Judicial
+        Breve Relato da Sentença: Gerar um resumo objetivo da sentença, destacando os principais pontos da decisão.
 
-Fundamentação da Sentença: Extrair os principais argumentos jurídicos utilizados pelo juiz para embasar a decisão.
+        Fundamentação da Sentença: Extrair os principais argumentos jurídicos utilizados pelo juiz para embasar a decisão.
 
-Juiz Responsável: Identificar o nome do magistrado que proferiu a decisão.
+        Juiz Responsável: Identificar o nome do magistrado que proferiu a decisão.
 
-Data da Sentença: Extrair a data em que a sentença foi proferida.
+        Data da Sentença: Extrair a data em que a sentença foi proferida.
 
-Pedidos do Autor e Resultado: Para cada pedido formulado pelo autor, identificar:
+        Pedidos do Autor e Resultado: Para cada pedido formulado pelo autor, identificar:
 
-Se foi procedente ou improcedente.
-Caso procedente, informar o valor determinado na sentença. Se não houver um valor especificado, indicar "valor não encontrado na sentença".
-Exemplo de saída:
+        Se foi procedente ou improcedente.
+        Caso procedente, informar o valor determinado na sentença. Se não houver um valor especificado, indicar "valor não encontrado na sentença".
+        Exemplo de saída:
 
-Dano material: Procedente – Valor: R$ 5.000,00.
-Dano moral: Improcedente.
-Condenação: Identificar as obrigações impostas às partes (pagamento de valores, cumprimento de obrigação de fazer, etc.).
+        Dano material: Procedente – Valor: R$ 5.000,00.
+        Dano moral: Improcedente.
+        Obrigação de Fazer: Indicar se há alguma obrigação de fazer imposta na sentença e qual é essa obrigação.
 
-Multa e Juros: Verificar se há incidência de multa, juros e correção monetária.
+        Multa da Obrigação de Fazer: Informar se há multa estipulada para o descumprimento da obrigação de fazer.
 
-Honorários Advocatícios: Identificar se há condenação em honorários advocatícios e seu percentual."""
+        Condenação: Identificar as obrigações impostas às partes (pagamento de valores, cumprimento de obrigação de fazer, etc.).
+
+        Multa e Juros: Verificar se há incidência de multa, juros e correção monetária.
+
+        Honorários Advocatícios: Identificar se há condenação em honorários advocatícios e seu percentual."""
     }
     
     prompt_escolhido = st.selectbox("Escolha um prompt para gerar a resposta:", list(prompt_opcoes.keys()))
